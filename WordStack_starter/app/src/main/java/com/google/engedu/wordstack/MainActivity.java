@@ -163,41 +163,44 @@ public class MainActivity extends AppCompatActivity {
         String word2=words.get(index2);
 
         int i=0;
-        Character[] array = new Character[word1.length()+word2.length()];
+        String word3="";
+       // Character[] array = new Character[word1.length()+word2.length()];
+        //Please type your messages as comments like this
+        //is it right way of defining char array?
+        //Let me try something.
+        //Im gonna chuck character array and use strings
+
 
 
         int word1count=0;
         int word2count=0;
-        for (i=0;i<array.length;i++) {
-
-
-            if ((word1count < WORD_LENGTH) && (word2count < WORD_LENGTH)) {
+        while((word1count < WORD_LENGTH) && (word2count < WORD_LENGTH)) {
                 m = random.nextInt(2);
                 if (m == 1) {
 
 
-                    array[i] =new Character(word1.charAt(word1count++));
+                    word3+=word1.charAt(word1count++);
 
 
                 } else {
 
-                    array[i] =new Character(word2.charAt(word2count++));
+                    word3+=word2.charAt(word2count++);
 
                 }
 
-            } else if (word1count < WORD_LENGTH) {
-                array[i] = new Character(word1.charAt(word1count++));
+            }if (word1count < WORD_LENGTH) {
+            word3+=word1.charAt(word1count++);
 
             } else {
-                array[i] =new Character(word2.charAt(word2count++));
+            word3+=word2.charAt(word2count++);
 
             }
 
 
-        }
 
-        String message = array.toString();
-        messageBox.setText(message);
+
+        //String message = array.toString();
+        messageBox.setText(word3);
 
 
 
