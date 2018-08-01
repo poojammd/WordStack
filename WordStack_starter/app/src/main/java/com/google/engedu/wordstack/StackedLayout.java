@@ -30,11 +30,11 @@ public class StackedLayout extends LinearLayout {
     }
 
     public void push(View tile) {
-        /**
-         **
-         **  YOUR CODE GOES HERE
-         **
-         **/
+
+
+        tiles.push(tile);
+
+
     }
 
     public View pop() {
