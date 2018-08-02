@@ -35,6 +35,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.Random;
 import java.util.Stack;
 
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> words = new ArrayList<>();
     private Random random = new Random();
     private StackedLayout stackedLayout;
+    private Stack<LetterTile> placedTiles=new Stack<>();
     private String word1, word2;
     int m;
 
@@ -84,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         View word2LinearLayout = findViewById(R.id.word2);
         word2LinearLayout.setOnTouchListener(new TouchListener());
         //word2LinearLayout.setOnDragListener(new DragListener());
+
+
+
     }
 
     private class TouchListener implements View.OnTouchListener {
@@ -97,11 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     TextView messageBox = (TextView) findViewById(R.id.message_box);
                     messageBox.setText(word1 + " " + word2);
                 }
-                /**
-                 **
-                 **  YOUR CODE GOES HERE
-                 **
-                 **/
+                placedTiles.push(tile);
                 return true;
             }
             return false;
@@ -149,8 +150,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onStartGame(View view) {
+
         TextView messageBox = (TextView) findViewById(R.id.message_box);
         messageBox.setText("Game started");
+
+        ViewGroup word1LinearLayout = (ViewGroup)findViewById(R.id.word1);
+        ViewGroup word2LinearLayout = (ViewGroup)findViewById(R.id.word2);
+        word1LinearLayout.removeAllViews();
+        word2LinearLayout.removeAllViews();
+
+        try
+        {
+            stackedLayout.clear();
+        }
+        catch(EmptyStackException e) {}
+
+
         int index1=random.nextInt(words.size());
         int index2=random.nextInt(words.size());
 
@@ -164,11 +179,6 @@ public class MainActivity extends AppCompatActivity {
 
         int i=0;
         String word3="";
-       // Character[] array = new Character[word1.length()+word2.length()];
-        //Please type your messages as comments like this
-        //is it right way of defining char array?
-        //Let me try something.
-        //Im gonna chuck character array and use strings
 
 
 
@@ -201,18 +211,21 @@ public class MainActivity extends AppCompatActivity {
 
         //String message = array.toString();
         messageBox.setText(word3);
+        for(int j=word3.length()-1;j>=0;j--)
+        {
+            LetterTile ob= new LetterTile(this,word3.charAt(j));
+            stackedLayout.push(ob);
 
+        }
 
 
         return true;
     }
 
     public boolean onUndo(View view) {
-        /**
-         **
-         **  YOUR CODE GOES HERE
-         **
-         **/
+        LetterTile popped = placedTiles.pop();
+        popped.moveToViewGroup(stackedLayout);
+
         return true;
     }
 }
